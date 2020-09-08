@@ -19,6 +19,12 @@ public class Main {
 
             if (command.equalsIgnoreCase("check products")) {
                 Command.checkAvailableProducts();
+            } else if (command.startsWith("buy")) {
+                if (command.split(" ").length < 2) {
+                    System.out.println("Please specify correct drink name");
+                } else {
+                    Command.buyDrink(command.substring(4));
+                }
             } else if (command.equalsIgnoreCase("exit")) {
                 System.out.println("Bye!");
                 break;

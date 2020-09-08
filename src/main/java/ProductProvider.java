@@ -21,6 +21,14 @@ public class ProductProvider {
         products.add(new Product("Still Water", random.nextInt(11), 10, new BigDecimal("1.8")));
         products.add(new Product("Sprinkled Water", random.nextInt(11), 10, new BigDecimal("1.7")));
         products.add(new Product("Orange Juice", random.nextInt(16), 15, new BigDecimal("4")));
+    }
 
+    public static Product getProductByName (String drinkName) {
+
+        for (Product product: products) {
+            if (product.getName().equalsIgnoreCase(drinkName))
+                return product;
+        }
+        return new Product();
     }
 }
