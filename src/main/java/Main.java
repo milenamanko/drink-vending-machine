@@ -6,29 +6,29 @@ public class Main {
 
         ProductProvider.initializeProducts();
 
-        String command;
+        String instruction;
 
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("VENDING MACHINE. AVAILABLE DRINKS:");
-        Command.checkAvailableProducts();
+        Instruction.checkAvailableProducts();
 
         while (scanner.hasNext()) {
 
-            command = scanner.nextLine();
+            instruction = scanner.nextLine();
 
-            if (command.equalsIgnoreCase("check products")) {
-                Command.checkAvailableProducts();
-            } else if (command.startsWith("buy")) {
-                if (command.split(" ").length < 2) {
+            if (instruction.equalsIgnoreCase("check products")) {
+                Instruction.checkAvailableProducts();
+            } else if (instruction.startsWith("buy")) {
+                if (instruction.split(" ").length < 2) {
                     System.out.println("Please specify correct drink name");
                 } else {
-                    Command.buyDrink(command.substring(4));
+                    Instruction.buyDrink(instruction.substring(4));
                 }
-            } else if (command.equalsIgnoreCase("exit")) {
+            } else if (instruction.equalsIgnoreCase("exit")) {
                 System.out.println("Bye!");
                 break;
-            } else System.out.println("Unknown command!");
+            } else System.out.println("Please specify instruction");
         }
     }
 }

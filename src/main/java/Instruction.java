@@ -2,7 +2,7 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Scanner;
 
-public class Command {
+public class Instruction {
 
     public static void checkAvailableProducts() {
 
@@ -25,15 +25,25 @@ public class Command {
             System.out.println("Drink is currently not available");
         } else {
             System.out.println("Chosen drink: " + drink.getName() + " - please insert " + drink.getPrice());
-        }
 
-        BigDecimal value = Payment.pay();
 
-        if (drink.getPrice().equals(value)) {
-            System.out.println("Drink bought: " + drink.getName());
-            drink.setCurrentAmount(drink.getCurrentAmount()-1);
-        } else if (drink.getPrice().compareTo(value) > 0) {
-            System.out.println("Not enough value. Please insert " + drink.getPrice().subtract(value) + " more");
+            Scanner scanner = new Scanner(System.in);
+            BigDecimal value = new BigDecimal(0);
+
+            while (drink.getPrice().compareTo(value) > 0) {
+
+                String input = scanner.nextLine();
+                value = value.add(new BigDecimal(input));
+                System.out.println("Money inserted: " + value);
+                if (drink.getPrice().compareTo(value) < 0) {
+                    System.out.println("The machine doesn't give change. Please pay with exact change.");
+                    value = BigDecimal.valueOf(0);
+                }
+                if (drink.getPrice().equals(value)) {
+                    System.out.println("Drink bought: " + drink.getName());
+                    drink.setCurrentAmount(drink.getCurrentAmount() - 1);
+                }
+            }
         }
     }
 }
