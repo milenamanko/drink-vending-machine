@@ -1,9 +1,11 @@
 import payment.Coin;
+import payment.CoinType;
 import payment.MoneyInitializer;
 import products.Product;
 import products.ProductProvider;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
@@ -25,6 +27,7 @@ public class Instruction {
         Product drink = ProductProvider.getProductByName(drinkName);
         List<Product> products = ProductProvider.getProducts();
         List<Coin> coins = MoneyInitializer.getCoins();
+        List<Coin> tempCoins = new ArrayList<>();
 
         if (drink.getName() == null) {
             System.out.println("Please specify correct drink name");
@@ -39,15 +42,33 @@ public class Instruction {
             while (drink.getPrice().compareTo(value) > 0) {
 
                 String input = scanner.nextLine();
+
                 value = value.add(new BigDecimal(input));
+
+                tempCoins.add(new Coin(CoinType.getCoinTypeByValue(new BigDecimal(input))));
+
                 System.out.println("Money inserted: " + value);
                 if (coins.isEmpty()) {
                     if (drink.getPrice().compareTo(value) < 0) {
-                        System.out.println("The machine doesn't give change. Please pay with exact amount.");
+                        System.out.println("The machine currently doesn't have the change. Please pay with exact amount.");
+                        tempCoins.clear();
                         value = BigDecimal.valueOf(0);
                     }
                 }
+
                 if (drink.getPrice().equals(value)) {
+                    coins.addAll(tempCoins);
+                    System.out.println("Drink bought: " + drink.getName());
+                    products.remove(drink);
+                }
+
+                if (drink.getPrice().compareTo(value) < 0) {
+
+                    BigDecimal change = value.subtract(drink.getPrice());
+                    System.out.println("Your change: " + change);
+                    //NEED TO IMPLEMENT GIVING THE CHANGE HERE
+
+                    coins.addAll(tempCoins);
                     System.out.println("Drink bought: " + drink.getName());
                     products.remove(drink);
                 }

@@ -1,6 +1,7 @@
 package payment;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
 
 public enum CoinType {
 
@@ -19,5 +20,12 @@ public enum CoinType {
 
     public BigDecimal getValue() {
         return value;
+    }
+
+    public static CoinType getCoinTypeByValue(BigDecimal input) {
+        return Arrays.stream(CoinType.values())
+                .filter(coinType -> input.equals(coinType.getValue()))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Please pay with existing value"));
     }
 }
