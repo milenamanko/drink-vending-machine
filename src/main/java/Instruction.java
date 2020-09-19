@@ -1,6 +1,12 @@
+import payment.Coin;
+import payment.MoneyInitializer;
+import products.Product;
+import products.ProductProvider;
+
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class Instruction {
 
@@ -8,24 +14,24 @@ public class Instruction {
 
         List<Product> products = ProductProvider.getProducts();
 
-        for (Product product : products) {
-            if (product.getCurrentAmount() != 0) {
-                System.out.println(product.getName() + " - price: " + product.getPrice());
-            }
-        }
+        products.stream()
+                .distinct()
+                .collect(Collectors.toList())
+                .forEach(product -> System.out.println(product.getName() + " - price: " + product.getPrice()));
     }
 
     public static void buyDrink(String drinkName) {
 
         Product drink = ProductProvider.getProductByName(drinkName);
+        List<Product> products = ProductProvider.getProducts();
+        List<Coin> coins = MoneyInitializer.getCoins();
 
         if (drink.getName() == null) {
             System.out.println("Please specify correct drink name");
-        } else if (drink.getCurrentAmount() < 1) {
+        } else if (!products.contains(drink)) {
             System.out.println("Drink is currently not available");
         } else {
             System.out.println("Chosen drink: " + drink.getName() + " - please insert " + drink.getPrice());
-
 
             Scanner scanner = new Scanner(System.in);
             BigDecimal value = new BigDecimal(0);
@@ -35,13 +41,15 @@ public class Instruction {
                 String input = scanner.nextLine();
                 value = value.add(new BigDecimal(input));
                 System.out.println("Money inserted: " + value);
-                if (drink.getPrice().compareTo(value) < 0) {
-                    System.out.println("The machine doesn't give change. Please pay with exact change.");
-                    value = BigDecimal.valueOf(0);
+                if (coins.isEmpty()) {
+                    if (drink.getPrice().compareTo(value) < 0) {
+                        System.out.println("The machine doesn't give change. Please pay with exact amount.");
+                        value = BigDecimal.valueOf(0);
+                    }
                 }
                 if (drink.getPrice().equals(value)) {
                     System.out.println("Drink bought: " + drink.getName());
-                    drink.setCurrentAmount(drink.getCurrentAmount() - 1);
+                    products.remove(drink);
                 }
             }
         }

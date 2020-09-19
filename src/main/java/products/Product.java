@@ -1,11 +1,14 @@
+package products;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
 
+@EqualsAndHashCode
 @AllArgsConstructor
 @RequiredArgsConstructor
 @Getter
@@ -13,7 +16,6 @@ import java.math.BigDecimal;
 public class Product {
 
     private String name;
-    private int currentAmount;
-    private int maxAmount;
     private BigDecimal price;
+
 }

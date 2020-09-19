@@ -1,10 +1,14 @@
+import payment.MoneyInitializer;
+import products.ProductProvider;
+
 import java.util.Scanner;
 
-public class Main {
+public class VendingMachine {
 
     public static void main(String[] args) {
 
         ProductProvider.initializeProducts();
+        MoneyInitializer.initializeMoney();
 
         String instruction;
 
