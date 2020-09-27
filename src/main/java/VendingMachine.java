@@ -30,7 +30,7 @@ public class VendingMachine {
                     Instruction.buyDrink(instruction.substring(4));
                 }
             } else if (instruction.equalsIgnoreCase("exit")) {
-                System.out.println("Bye!");
+                System.out.println("Thank you!");
                 break;
             } else System.out.println("Please specify instruction");
         }

@@ -12,20 +12,30 @@ public class Payment {
     static List<CoinType> coinTypes = CoinType.getAllSortedCoinTypes();
 
 
-    public static void giveChange(BigDecimal drinkPrice, BigDecimal value) {
+    public static boolean giveChange(BigDecimal drinkPrice, BigDecimal value) {
         change = value.subtract(drinkPrice);
 
         for (CoinType cT : coinTypes) {
             getChangeCoins(cT);
         }
 
-        System.out.println("Change: ");
+        if (change.equals(new BigDecimal("0.0"))) {
 
-        for (Coin c : changeCoins) {
-            System.out.println(c.getCoinType().getValue());
+            coins.removeAll(changeCoins);
+            System.out.println("Change: ");
+
+            for (Coin c : changeCoins) {
+                System.out.println(c.getCoinType().getValue());
+            }
+            changeCoins.clear();
+
+            return true;
         }
         changeCoins.clear();
+
+        return false;
     }
+
 
     private static void getChangeCoins(CoinType coinType) {
 
@@ -38,8 +48,7 @@ public class Payment {
                         .filter(coin -> coin.getCoinType() == coinType)
                         .findAny()
                         .ifPresent(coin -> {
-                            coins.remove(coin);
-                            changeCoins.add(new Coin(coinType));
+                            changeCoins.add(coin);
                             change = change.subtract(coinType.getValue());
                         });
             }

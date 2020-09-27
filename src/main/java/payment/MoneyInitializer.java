@@ -1,10 +1,6 @@
 package payment;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import products.Product;
 
 import java.util.ArrayList;
 import java.util.Arrays;

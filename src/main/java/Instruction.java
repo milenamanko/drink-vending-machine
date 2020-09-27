@@ -64,10 +64,17 @@ public class Instruction {
                 }
 
                 if (drink.getPrice().compareTo(value) < 0) {
-                    Payment.giveChange(drink.getPrice(), value);
+                    boolean isBought = Payment.giveChange(drink.getPrice(), value);
 
-                    System.out.println("Drink bought: " + drink.getName());
-                    products.remove(drink);
+                    if (isBought) {
+                        System.out.println("Drink bought: " + drink.getName());
+                        products.remove(drink);
+                    } else {
+                        System.out.println("The machine currently doesn't have the change. Please pay with exact amount. Money returned: ");
+                        for (Coin tempCoin : tempCoins) {
+                            System.out.println(tempCoin.getCoinType().getValue());
+                        }
+                    }
                 }
             }
         }
