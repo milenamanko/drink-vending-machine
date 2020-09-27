@@ -1,6 +1,7 @@
 import payment.Coin;
 import payment.CoinType;
 import payment.MoneyInitializer;
+import payment.Payment;
 import products.Product;
 import products.ProductProvider;
 
@@ -63,12 +64,8 @@ public class Instruction {
                 }
 
                 if (drink.getPrice().compareTo(value) < 0) {
+                    Payment.giveChange(drink.getPrice(), value);
 
-                    BigDecimal change = value.subtract(drink.getPrice());
-                    System.out.println("Your change: " + change);
-                    //NEED TO IMPLEMENT GIVING THE CHANGE HERE
-
-                    coins.addAll(tempCoins);
                     System.out.println("Drink bought: " + drink.getName());
                     products.remove(drink);
                 }

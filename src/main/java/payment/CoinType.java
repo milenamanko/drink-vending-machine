@@ -2,6 +2,8 @@ package payment;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public enum CoinType {
 
@@ -20,6 +22,12 @@ public enum CoinType {
 
     public BigDecimal getValue() {
         return value;
+    }
+
+    public static List<CoinType> getAllSortedCoinTypes() {
+        return Arrays.stream(CoinType.values())
+                .sorted((o1, o2) -> o2.getValue().compareTo(o1.getValue()))
+                .collect(Collectors.toList());
     }
 
     public static CoinType getCoinTypeByValue(BigDecimal input) {
